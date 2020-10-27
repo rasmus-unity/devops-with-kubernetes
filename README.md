@@ -22,7 +22,9 @@ Update `/etc/hosts`, add
 ## Create app
 
 ```
-npm init
+go mod init rasmus-unity/devops-with-kubernetes
+GOPRIVATE="github.com/rasmus-unity" go mod vendor
+
 Write some code and a Dockerfile
 (...)
 ```

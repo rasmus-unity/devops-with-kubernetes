@@ -1,10 +1,18 @@
-FROM node:alpine
+FROM golang:1.15 as builder
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN ["npm", "install"]
+COPY cmd/ cmd/
+COPY go.mod .
+COPY go.sum .
 
-COPY src/ src/
+RUN CGO_ENABLED=0 go build -o timer cmd/*
 
-CMD ["npm", "start"]
+
+FROM alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/timer .
+
+CMD ["./timer"]
